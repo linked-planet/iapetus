@@ -1,5 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+>
 
   <modelVersion>4.0.0</modelVersion>
 
@@ -25,7 +29,8 @@
     <kotlin.version>2.1.21</kotlin.version>
     <kotlin.api.version>2.2</kotlin.api.version>
     <kotlinx.version>1.10.2</kotlinx.version>
-    <developer.connection>scm:git:https://github.com/linked-planet/iapetus.git</developer.connection>
+    <developer.connection
+        >scm:git:https://github.com/linked-planet/iapetus.git</developer.connection>
     <project.scm.id>github</project.scm.id>
 
     <!-- Deployment properties intended to be set via command line -->
@@ -72,7 +77,8 @@
     <maven.plugin.resources.version>3.3.1</maven.plugin.resources.version>
     <maven.plugin.install.version>3.1.4</maven.plugin.install.version>
     <maven.plugin.license.version>2.5.0</maven.plugin.license.version>
-    <maven.plugin.central.publishing.version>0.7.0</maven.plugin.central.publishing.version>
+    <maven.plugin.central.publishing.version
+        >0.7.0</maven.plugin.central.publishing.version>
     <maven.plugin.release.version>3.1.1</maven.plugin.release.version>
   </properties>
 
@@ -453,16 +459,6 @@
         <groupId>org.sonatype.central</groupId>
         <artifactId>central-publishing-maven-plugin</artifactId>
       </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-gpg-plugin</artifactId>
-      </plugin>
     </plugins>
   </build>
 
@@ -536,6 +532,21 @@
             </executions>
           </plugin>
         </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>iapetus-release</id>
+      <build>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+        </plugin>
+
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+        </plugin>
       </build>
     </profile>
   </profiles>
@@ -613,7 +624,8 @@
     <repository>
       <id>mulesoft-public</id>
       <name>mulesoft public</name>
-      <url>https://repository.mulesoft.org/nexus/content/repositories/public/</url>
+      <url
+            >https://repository.mulesoft.org/nexus/content/repositories/public/</url>
     </repository>
 
     <repository>
