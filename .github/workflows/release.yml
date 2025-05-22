@@ -1,0 +1,50 @@
+name: iapetus - release
+
+on:
+  release:
+    types: [ created ]
+
+jobs:
+  build-release:
+    uses: linked-planet/github-workflows/.github/workflows/build-release.yml@v6
+    with:
+      branch: ${{ github.event.repository.default_branch }}
+    secrets:
+      gh_user: ${{ vars.GH_USER }}
+
+  perform-release:
+    needs:
+      - build-release
+    permissions:
+      contents: write
+      packages: write
+    uses: linked-planet/github-workflows/.github/workflows/perform-release.yml@v6
+    with:
+      branch: ${{ github.event.repository.default_branch }}
+      version: ${{ needs.build-release.outputs.version }}
+    secrets:
+      gh_user: ${{ vars.GH_USER }}
+
+  rollback-release:
+    if: cancelled() || failure()
+    permissions:
+      contents: write
+    needs:
+      - build-release
+      - perform-release
+    uses: linked-planet/github-workflows/.github/workflows/rollback-release.yml@v6
+    with:
+      branch: ${{ github.event.repository.default_branch }}
+    secrets:
+      gh_user: ${{ vars.GH_USER }}
+
+  notify-slack:
+    needs: rollback-release
+    if: always()
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Notify Slack
+        uses: iRoachie/slack-github-actions@v2.3.2
+        env:
+          SLACK_WEBHOOK_URL: ${{ vars.SLACK_WEBHOOK_URL }}
+          GITHUB_TOKEN: ${{ github.token }}
