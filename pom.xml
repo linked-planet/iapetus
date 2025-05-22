@@ -390,8 +390,8 @@
       <activation>
         <activeByDefault>false</activeByDefault>
         <property>
-          <!-- TODO: Doesn't work lol -->
-          <name>!skipFrontend</name>
+          <name>skipFrontend</name>
+          <value>false</value>
         </property>
       </activation>
       <build>
