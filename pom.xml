@@ -92,13 +92,13 @@
 
       <!-- BOM's -->
 
-      <dependency>
-        <groupId>com.atlassian.jira</groupId>
-        <artifactId>jira-bom</artifactId>
-        <version>${jira.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
+      <!-- <dependency> -->
+      <!--   <groupId>com.atlassian.jira</groupId> -->
+      <!--   <artifactId>jira-bom</artifactId> -->
+      <!--   <version>${jira.version}</version> -->
+      <!--   <type>pom</type> -->
+      <!--   <scope>import</scope> -->
+      <!-- </dependency> -->
 
       <dependency>
         <groupId>com.atlassian.jira</groupId>
@@ -270,14 +270,6 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
-  <!-- <dependencies> -->
-  <!--   <dependency> -->
-  <!--     <groupId>com.atlassian.jira</groupId> -->
-  <!--     <artifactId>jira-bom</artifactId> -->
-  <!--     <version>9.12.6</version> -->
-  <!--   </dependency> -->
-  <!-- </dependencies> -->
 
   <build>
     <sourceDirectory>scripts</sourceDirectory>
