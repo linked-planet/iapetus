@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.linked-planet.atlassian</groupId>
+  <artifactId>atlas-pom</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>Atlas-POM</name>
+  <description>Parent POM for Atlassian Projects</description>
+  <inceptionYear>2025</inceptionYear>
+
+  <organization>
+    <name>linked-planet GmbH</name>
+    <url>https://linked-planet.com</url>
+  </organization>
+
+  <properties>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+
+    <kotlin.compiler.jvmTarget>11</kotlin.compiler.jvmTarget>
+    <kotlin.version>2.1.21</kotlin.version>
+    <kotlin.api.version>2.2</kotlin.api.version>
+    <kotlinx.version>1.10.2</kotlinx.version>
+    <developer.connection>scm:git:https://github.com/linked-planet/atlas-pom.git</developer.connection>
+    <project.scm.id>github</project.scm.id>
+
+    <!-- Deployment properties intended to be set via command line -->
+    <deploy.url>_</deploy.url>
+    <deploy.username>_</deploy.username>
+    <deploy.password>_</deploy.password>
+
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+    <!-- FRONTEND -->
+    <frontend-maven-plugin.version>1.12.1</frontend-maven-plugin.version>
+    <node.version>v20.19.0</node.version>
+    <npm.version>10.8.2</npm.version>
+    <skipFrontend>true</skipFrontend>
+
+    <!-- ATLASSIAN -->
+    <jira.version>9.12.6</jira.version>
+    <servicedesk.version>5.12.22</servicedesk.version>
+    <amps.version>8.9.2</amps.version>
+    <atlassian.spring.scanner.version>2.2.6</atlassian.spring.scanner.version>
+
+    <!-- APPLICATION -->
+    <arrow.version>1.2.4</arrow.version> <!-- TODO: Upgrade to 2.1.2 -->
+    <jackson.fasterxml.version>2.19.0</jackson.fasterxml.version>
+    <jakarta.ee.version>11.0.0</jakarta.ee.version>
+
+    <!-- LINKED-PLANET -->
+    <kotlin.atlassian.client.version>0.14.3</kotlin.atlassian.client.version>
+
+    <!-- TEST -->
+    <junit.version>5.12.1</junit.version>
+    <surefire.version>3.2.5</surefire.version>
+    <byte-buddy.version>1.15.11</byte-buddy.version>
+    <kotest.version>5.9.1</kotest.version>
+    <testcontainers.version>1.20.2</testcontainers.version>
+    <mockk.version>1.14.0</mockk.version>
+    <rest.assured.version>4.5.1</rest.assured.version>
+
+    <!-- PLUGINS -->
+    <maven.plugin.clean.version>3.4.1</maven.plugin.clean.version>
+    <maven.plugin.dependency.version>3.6.0</maven.plugin.dependency.version>
+    <maven.plugin.deploy.version>3.1.4</maven.plugin.deploy.version>
+    <maven.plugin.resources.version>3.3.1</maven.plugin.resources.version>
+    <maven.plugin.install.version>3.1.4</maven.plugin.install.version>
+    <maven.plugin.license.version>2.5.0</maven.plugin.license.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+
+      <!-- BOM's -->
+
+      <dependency>
+        <groupId>com.atlassian.jira</groupId>
+        <artifactId>jira-bom</artifactId>
+        <version>${jira.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>com.atlassian.jira</groupId>
+        <artifactId>jira-api-bom</artifactId>
+        <version>${jira.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>com.atlassian.jira</groupId>
+        <artifactId>jira-internal-api-bom</artifactId>
+        <version>${jira.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>com.atlassian.jira</groupId>
+        <artifactId>jira-bundled-plugins</artifactId>
+        <version>${jira.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.jetbrains.kotlin</groupId>
+        <artifactId>kotlin-bom</artifactId>
+        <version>${kotlin.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.jetbrains.kotlinx</groupId>
+        <artifactId>kotlinx-coroutines-bom</artifactId>
+        <version>${kotlinx.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.junit</groupId>
+        <artifactId>junit-bom</artifactId>
+        <version>${junit.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>com.fasterxml.jackson</groupId>
+        <artifactId>jackson-bom</artifactId>
+        <version>${jackson.fasterxml.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <dependency>
+        <!-- TODO: Is this needed? -->
+        <groupId>jakarta.platform</groupId>
+        <artifactId>jakarta.jakartaee-bom</artifactId>
+        <version>${jakarta.ee.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <!-- ATLASSIAN -->
+      <dependency>
+        <groupId>com.atlassian.servicedesk</groupId>
+        <artifactId>jira-servicedesk-api</artifactId>
+        <version>${servicedesk.version}</version>
+        <!-- <exclusions> -->
+        <!--   <exclusion> -->
+        <!--     <groupId>jta</groupId> -->
+        <!--     <artifactId>jta</artifactId> -->
+        <!--   </exclusion> -->
+        <!-- </exclusions> -->
+      </dependency>
+
+      <dependency>
+        <groupId>com.atlassian.jira</groupId>
+        <artifactId>jira-core</artifactId>
+        <version>${jira.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>jta</groupId>
+            <artifactId>jta</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>jndi</groupId>
+            <artifactId>jndi</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+
+      <!-- APPLICATION -->
+
+      <dependency>
+        <groupId>io.arrow-kt</groupId>
+        <artifactId>arrow-stack</artifactId>
+        <version>${arrow.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <!-- LINKED-PLANET -->
+
+      <dependency>
+        <groupId>com.linked-planet.client</groupId>
+        <artifactId>kotlin-insight-client-sdk</artifactId>
+        <version>${kotlin.atlassian.client.version}</version>
+      </dependency>
+
+      <!-- TEST -->
+
+      <dependency>
+        <groupId>io.kotest</groupId>
+        <artifactId>kotest-assertions-core-jvm</artifactId>
+        <version>${kotest.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>io.mockk</groupId>
+        <artifactId>mockk-jvm</artifactId>
+        <version>${mockk.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.testcontainers</groupId>
+        <artifactId>junit-jupiter</artifactId>
+        <version>${testcontainers.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.testcontainers</groupId>
+        <artifactId>postgresql</artifactId>
+        <version>${testcontainers.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>com.sun.xml.ws</groupId>
+        <artifactId>jaxws-rt</artifactId>
+        <version>${jaxws.rt.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>io.rest-assured</groupId>
+        <artifactId>rest-assured</artifactId>
+        <version>${rest.assured.version}</version>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>${maven.plugin.clean.version}</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>${maven.plugin.resources.version}</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>${maven.plugin.install.version}</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>${maven.plugin.deploy.version}</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>${maven.plugin.dependency.version}</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>${surefire.version}</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.jetbrains.kotlin</groupId>
+          <artifactId>kotlin-maven-plugin</artifactId>
+          <configuration>
+            <languageVersion>${kotlin.api.version}</languageVersion>
+            <apiVersion>${kotlin.api.version}</apiVersion>
+            <jvmTarget>${kotlin.compiler.jvmTarget}</jvmTarget>
+          </configuration>
+          <executions>
+            <execution>
+              <id>compile</id>
+              <goals>
+                <goal>compile</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>test-compile</id>
+              <goals>
+                <goal>test-compile</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+
+        <plugin>
+          <groupId>com.atlassian.maven.plugins</groupId>
+          <artifactId>jira-maven-plugin</artifactId>
+          <version>${amps.version}</version>
+          <extensions>true</extensions>
+          <configuration>
+            <extractDependencies>false</extractDependencies>
+            <skipITs>true</skipITs>
+            <skipTests>false</skipTests>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>com.atlassian.plugin</groupId>
+          <artifactId>atlassian-spring-scanner-maven-plugin</artifactId>
+          <version>${atlassian.spring.scanner.version}</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>atlassian-spring-scanner</goal>
+              </goals>
+              <phase>process-classes</phase>
+            </execution>
+          </executions>
+          <configuration>
+            <!--<verbose>true</verbose>-->
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>license-maven-plugin</artifactId>
+          <version>${maven.plugin.license.version}</version>
+          <configuration>
+            <licenseName>apache_v2</licenseName>
+            <licenseFile>${project.basedir}/LICENSE</licenseFile>
+            <projectName>${project.artifactId}</projectName>
+            <inceptionYear>${project.inceptionYear}</inceptionYear>
+            <copyrightOwners>${project.organization.name}</copyrightOwners>
+            <failOnMissingHeader>true</failOnMissingHeader>
+            <failOnNotUptodateHeader>true</failOnNotUptodateHeader>
+            <excludes>
+              <exclude>**/version.properties</exclude>
+              <exclude>**/plugin*.properties</exclude>
+              <exclude>**/log4j.properties</exclude>
+              <exclude>**/kaptKotlin/**/*</exclude>
+              <exclude>**/*-min.js</exclude>
+              <exclude>**/*.json</exclude>
+            </excludes>
+            <excludedScopes>provided,test</excludedScopes>
+          </configuration>
+          <executions>
+            <execution>
+              <id>license-check-file-header</id>
+              <phase>validate</phase>
+              <goals>
+                <goal>check-file-header</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+  </build>
+
+  <profiles>
+    <profile>
+      <id>frontend</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+        <property>
+          <!-- TODO: Doesn't work lol -->
+          <name>!skipFrontend</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <!-- this installs node and npm in a folder in frontend-ts, if you want to use
+               your globally installed node, set NODE_PATH to the node executable folder -->
+          <plugin>
+            <groupId>com.github.eirslett</groupId>
+            <artifactId>frontend-maven-plugin</artifactId>
+            <configuration>
+              <nodeVersion>${node.version}</nodeVersion>
+              <npmVersion>${npm.version}</npmVersion>
+              <!-- <workingDirectory>${project.basedir}/frontend-ts</workingDirectory> -->
+              <!-- <installDirectory>${project.basedir}/frontend-ts</installDirectory> -->
+            </configuration>
+
+            <executions>
+              <execution>
+                <id>install-frontend-tools</id>
+                <phase>process-classes</phase>
+                <goals>
+                  <goal>install-node-and-npm</goal>
+                </goals>
+              </execution>
+
+              <execution>
+                <id>npm-install</id>
+                <phase>process-classes</phase>
+                <goals>
+                  <goal>npm</goal>
+                </goals>
+                <configuration>
+                  <arguments>install</arguments>
+                </configuration>
+              </execution>
+
+              <execution>
+                <id>npm-check-signatures</id>
+                <phase>process-classes</phase>
+                <goals>
+                  <goal>npm</goal>
+                </goals>
+                <configuration>
+                  <arguments>audit signatures</arguments>
+                </configuration>
+              </execution>
+
+              <execution>
+                <id>npm-swagger</id>
+                <phase>process-classes</phase>
+                <goals>
+                  <goal>npm</goal>
+                </goals>
+                <configuration>
+                  <arguments>run swagger</arguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+  <scm>
+    <developerConnection>${developer.connection}</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>GitHub Packages</name>
+      <url>
+        https://maven.pkg.github.com/linked-planet/atlas-pom
+      </url>
+    </repository>
+  </distributionManagement>
+
+  <repositories>
+    <repository>
+      <id>maven-central</id>
+      <name>Maven Central</name>
+      <url>https://repo1.maven.org/maven2/</url>
+    </repository>
+
+    <repository>
+      <id>atlassian-proxy</id>
+      <name>Atlassian Maven 2 Proxy</name>
+      <url>https://packages.atlassian.com/artifactory/maven-atlassian-all/</url>
+    </repository>
+
+    <repository>
+      <id>terracotta</id>
+      <name>Terracotta</name>
+      <url>https://repo.terracotta.org/maven2/</url>
+    </repository>
+
+    <repository>
+      <id>gradle-plugins</id>
+      <name>Gradle Plugins</name>
+      <url>https://plugins.gradle.org/m2/</url>
+    </repository>
+
+    <repository>
+      <id>mulesoft</id>
+      <name>Mulesoft</name>
+      <url>https://maven.anypoint.mulesoft.com/api/v1/maven/</url>
+    </repository>
+
+    <repository>
+      <id>aspose</id>
+      <name>Aspose</name>
+      <url>https://releases.aspose.com/java/repo/</url>
+    </repository>
+
+    <repository>
+      <id>clojars</id>
+      <name>Clojars</name>
+      <url>https://clojars.org/repo/</url>
+    </repository>
+
+    <repository>
+      <id>sonatype forge</id>
+      <name>Sonatype forge</name>
+      <url>https://repository.sonatype.org/content/repositories/forge/</url>
+    </repository>
+
+    <repository>
+      <id>mulesoft-releases</id>
+      <name>Mulesoft Releases</name>
+      <url>https://repository.mulesoft.org/releases/</url>
+    </repository>
+
+    <repository>
+      <id>mulesoft-public</id>
+      <name>mulesoft public</name>
+      <url>https://repository.mulesoft.org/nexus/content/repositories/public/</url>
+    </repository>
+
+    <repository>
+      <id>typesafe</id>
+      <name>Typesafe</name>
+      <url>https://repo.typesafe.com/typesafe/releases/</url>
+    </repository>
+
+    <repository>
+      <id>jenkins-releases</id>
+      <name>Jenkins</name>
+      <url>https://repo.jenkins-ci.org/releases/</url>
+    </repository>
+
+    <repository>
+      <id>groovy-repository</id>
+      <name>Groovy Repository</name>
+      <url>https://groovy.jfrog.io/artifactory/libs-release/</url>
+    </repository>
+  </repositories>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>maven-central</id>
+      <name>Maven Central</name>
+      <url>https://repo1.maven.org/maven2/</url>
+    </pluginRepository>
+
+    <pluginRepository>
+      <id>atlassian-proxy</id>
+      <name>Atlassian Maven 2 Proxy</name>
+      <url>https://packages.atlassian.com/maven/repository/public</url>
+    </pluginRepository>
+  </pluginRepositories>
+</project>
