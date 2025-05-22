@@ -43,7 +43,7 @@
     <skipFrontend>true</skipFrontend>
 
     <!-- ATLASSIAN -->
-    <jira.version>9.12.6</jira.version>
+    <jira.version>9.12.22</jira.version>
     <servicedesk.version>5.12.22</servicedesk.version>
     <amps.version>8.9.2</amps.version>
     <atlassian.spring.scanner.version>2.2.6</atlassian.spring.scanner.version>
