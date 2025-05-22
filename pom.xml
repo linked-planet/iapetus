@@ -296,6 +296,7 @@
         <plugin>
           <groupId>org.jetbrains.kotlin</groupId>
           <artifactId>kotlin-maven-plugin</artifactId>
+          <version>${kotlin.version}</version>
           <configuration>
             <languageVersion>${kotlin.api.version}</languageVersion>
             <apiVersion>${kotlin.api.version}</apiVersion>
@@ -400,6 +401,8 @@
           <plugin>
             <groupId>com.github.eirslett</groupId>
             <artifactId>frontend-maven-plugin</artifactId>
+            <version>${frontend-maven-plugin.version}</version>
+
             <configuration>
               <nodeVersion>${node.version}</nodeVersion>
               <npmVersion>${npm.version}</npmVersion>
