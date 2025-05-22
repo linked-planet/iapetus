@@ -79,25 +79,18 @@
     <properties-maven-plugin.version>1.2.1</properties-maven-plugin.version>
   </properties>
 
-  <parent>
-    <groupId>com.atlassian.jira</groupId>
-    <artifactId>jira-bom</artifactId>
-    <!-- TODO: Fix this LOL -->
-    <version>9.12.6</version>
-  </parent>
-
   <dependencyManagement>
     <dependencies>
 
       <!-- BOM's -->
 
-      <!-- <dependency> -->
-      <!--   <groupId>com.atlassian.jira</groupId> -->
-      <!--   <artifactId>jira-bom</artifactId> -->
-      <!--   <version>${jira.version}</version> -->
-      <!--   <type>pom</type> -->
-      <!--   <scope>import</scope> -->
-      <!-- </dependency> -->
+      <dependency>
+        <groupId>com.atlassian.jira</groupId>
+        <artifactId>jira-bom</artifactId>
+        <version>${jira.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
 
       <dependency>
         <groupId>com.atlassian.jira</groupId>
@@ -165,16 +158,17 @@
       </dependency>
 
       <!-- ATLASSIAN -->
+
       <dependency>
         <groupId>com.atlassian.servicedesk</groupId>
         <artifactId>jira-servicedesk-api</artifactId>
         <version>${servicedesk.version}</version>
-        <!-- <exclusions> -->
-        <!--   <exclusion> -->
-        <!--     <groupId>jta</groupId> -->
-        <!--     <artifactId>jta</artifactId> -->
-        <!--   </exclusion> -->
-        <!-- </exclusions> -->
+        <exclusions>
+          <exclusion>
+            <groupId>jta</groupId>
+            <artifactId>jta</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
 
       <dependency>
