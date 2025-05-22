@@ -7,11 +7,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.linked-planet.atlassian</groupId>
-  <artifactId>atlas-pom</artifactId>
+  <artifactId>iapetus</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <name>Atlas-POM</name>
+  <name>Iapetus</name>
   <description>Parent POM for Atlassian Projects</description>
   <inceptionYear>2025</inceptionYear>
 
@@ -28,7 +28,7 @@
     <kotlin.version>2.1.21</kotlin.version>
     <kotlin.api.version>2.2</kotlin.api.version>
     <kotlinx.version>1.10.2</kotlinx.version>
-    <developer.connection>scm:git:https://github.com/linked-planet/atlas-pom.git</developer.connection>
+    <developer.connection>scm:git:https://github.com/linked-planet/iapetus.git</developer.connection>
     <project.scm.id>github</project.scm.id>
 
     <!-- Deployment properties intended to be set via command line -->
@@ -458,7 +458,7 @@
       <id>github</id>
       <name>GitHub Packages</name>
       <url>
-        https://maven.pkg.github.com/linked-planet/atlas-pom
+        https://maven.pkg.github.com/linked-planet/iapetus
       </url>
     </repository>
   </distributionManagement>
