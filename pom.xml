@@ -432,6 +432,16 @@
             </execution>
           </executions>
         </plugin>
+
+        <!-- TODO: Drop this as soon as jira-bom is not anymore used as parent -->
+        <plugin>
+          <groupId>com.atlassian.maven.plugins</groupId>
+          <artifactId>artifactory-staging-maven-plugin</artifactId>
+          <inherited>false</inherited>
+          <configuration>
+            <skipPromotion>true</skipPromotion>
+          </configuration>
+        </plugin>
       </plugins>
     </pluginManagement>
 
