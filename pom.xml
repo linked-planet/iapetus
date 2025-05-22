@@ -77,18 +77,25 @@
     <maven.plugin.license.version>2.5.0</maven.plugin.license.version>
   </properties>
 
+  <parent>
+    <groupId>com.atlassian.jira</groupId>
+    <artifactId>jira-bom</artifactId>
+    <!-- TODO: Fix this LOL -->
+    <version>9.12.6</version>
+  </parent>
+
   <dependencyManagement>
     <dependencies>
 
       <!-- BOM's -->
 
-      <dependency>
-        <groupId>com.atlassian.jira</groupId>
-        <artifactId>jira-bom</artifactId>
-        <version>${jira.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
+      <!-- <dependency> -->
+      <!--   <groupId>com.atlassian.jira</groupId> -->
+      <!--   <artifactId>jira-bom</artifactId> -->
+      <!--   <version>${jira.version}</version> -->
+      <!--   <type>pom</type> -->
+      <!--   <scope>import</scope> -->
+      <!-- </dependency> -->
 
       <dependency>
         <groupId>com.atlassian.jira</groupId>
