@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
 
@@ -45,7 +47,6 @@
     <!-- ATLASSIAN -->
     <jira.version>9.12.22</jira.version>
     <servicedesk.version>5.12.22</servicedesk.version>
-    <amps.version>8.9.2</amps.version>
     <atlassian.spring.scanner.version>2.2.6</atlassian.spring.scanner.version>
 
     <!-- APPLICATION -->
@@ -74,6 +75,8 @@
     <maven.plugin.license.version>2.5.0</maven.plugin.license.version>
     <maven.plugin.central.publishing.version>0.7.0</maven.plugin.central.publishing.version>
     <maven.plugin.release.version>3.1.1</maven.plugin.release.version>
+    <maven.plugins.exec.version>3.1.0</maven.plugins.exec.version>
+    <properties-maven-plugin.version>1.2.1</properties-maven-plugin.version>
   </properties>
 
   <parent>
@@ -327,20 +330,20 @@
             <apiVersion>${kotlin.api.version}</apiVersion>
             <jvmTarget>${kotlin.compiler.jvmTarget}</jvmTarget>
           </configuration>
-          <!-- <executions> -->
-          <!--   <execution> -->
-          <!--     <id>compile</id> -->
-          <!--     <goals> -->
-          <!--       <goal>compile</goal> -->
-          <!--     </goals> -->
-          <!--   </execution> -->
-          <!--   <execution> -->
-          <!--     <id>test-compile</id> -->
-          <!--     <goals> -->
-          <!--       <goal>test-compile</goal> -->
-          <!--     </goals> -->
-          <!--   </execution> -->
-          <!-- </executions> -->
+          <executions>
+            <execution>
+              <id>compile</id>
+              <goals>
+                <goal>compile</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>test-compile</id>
+              <goals>
+                <goal>test-compile</goal>
+              </goals>
+            </execution>
+          </executions>
         </plugin>
 
         <plugin>
@@ -460,6 +463,18 @@
             <skipPromotion>true</skipPromotion>
           </configuration>
         </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>exec-maven-plugin</artifactId>
+          <version>${maven.plugins.exec.version}</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>properties-maven-plugin</artifactId>
+          <version>${properties-maven-plugin.version}</version>
+        </plugin>
       </plugins>
     </pluginManagement>
 
@@ -481,58 +496,97 @@
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>copy-jira-bom</id>
-            <phase>initialize</phase>
-            <goals>
-              <goal>copy</goal>
-            </goals>
-            <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>com.atlassian.jira</groupId>
-                  <artifactId>jira-bom</artifactId>
-                  <version>${jira.version}</version>
-                  <type>pom</type>
-                </artifactItem>
-              </artifactItems>
-              <outputDirectory>${project.build.directory}/deps</outputDirectory>
-              <overWriteReleases>true</overWriteReleases>
-            </configuration>
-          </execution>
-        </executions>
+        <artifactId>maven-source-plugin</artifactId>
       </plugin>
 
       <plugin>
-        <artifactId>kotlin-maven-plugin</artifactId>
-        <version>${kotlin.version}</version>
-        <configuration>
-          <jvmTarget>${maven.compiler.target}</jvmTarget>
-        </configuration>
-        <groupId>org.jetbrains.kotlin</groupId>
-        <executions>
-          <execution>
-            <id>extract-atlassian-maven-properties</id>
-            <phase>generate-resources</phase>
-            <goals>
-              <goal>script</goal>
-            </goals>
-            <configuration>
-              <scriptFile>${project.basedir}/scripts/extract-maven-properties.kts</scriptFile>
-              <scriptArguments>
-                <scriptArgument>${project.build.directory}/deps</scriptArgument>
-                <scriptArgument>jira-bom-${jira.version}</scriptArgument>
-              </scriptArguments>
-            </configuration>
-          </execution>
-        </executions>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
       </plugin>
     </plugins>
   </build>
 
   <profiles>
+    <profile>
+      <id>parent-build</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+        <file>
+          <exists>.parent-build.activation</exists>
+        </file>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>copy-jira-bom</id>
+                <phase>initialize</phase>
+                <goals>
+                  <goal>copy</goal>
+                </goals>
+                <configuration>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>com.atlassian.jira</groupId>
+                      <artifactId>jira-bom</artifactId>
+                      <version>${jira.version}</version>
+                      <type>pom</type>
+                    </artifactItem>
+                  </artifactItems>
+                  <outputDirectory>${project.build.directory}/deps</outputDirectory>
+                  <overWriteReleases>true</overWriteReleases>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>run-script</id>
+                <phase>generate-resources</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <executable>sh</executable>
+              <arguments>
+                <argument>${project.basedir}/scripts/extract-maven-properties.sh</argument>
+                <argument>${project.build.directory}/deps</argument>
+                <argument>jira-bom-${jira.version}</argument>
+              </arguments>
+            </configuration>
+          </plugin>
+
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>properties-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <!-- NOTE: Properties are only needed for child builds, not the parent -->
+                <phase>process-resources</phase>
+                <goals>
+                  <goal>read-project-properties</goal>
+                </goals>
+                <configuration>
+                  <files>
+                    <file>${project.build.directory}/deps/jira-bom-${jira.version}.properties</file>
+                  </files>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
     <profile>
       <id>frontend</id>
       <activation>
