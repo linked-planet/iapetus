@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project
-    xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 >
 
   <modelVersion>4.0.0</modelVersion>
@@ -27,10 +27,9 @@
 
     <kotlin.compiler.jvmTarget>11</kotlin.compiler.jvmTarget>
     <kotlin.version>2.1.21</kotlin.version>
-    <kotlin.api.version>2.2</kotlin.api.version>
+    <kotlin.api.version>2.1</kotlin.api.version>
     <kotlinx.version>1.10.2</kotlinx.version>
-    <developer.connection
-        >scm:git:https://github.com/linked-planet/iapetus.git</developer.connection>
+    <developer.connection>scm:git:https://github.com/linked-planet/iapetus.git</developer.connection>
     <project.scm.id>github</project.scm.id>
 
     <!-- Deployment properties intended to be set via command line -->
@@ -77,15 +76,14 @@
     <maven.plugin.resources.version>3.3.1</maven.plugin.resources.version>
     <maven.plugin.install.version>3.1.4</maven.plugin.install.version>
     <maven.plugin.license.version>2.5.0</maven.plugin.license.version>
-    <maven.plugin.central.publishing.version
-        >0.7.0</maven.plugin.central.publishing.version>
+    <maven.plugin.central.publishing.version>0.7.0</maven.plugin.central.publishing.version>
     <maven.plugin.release.version>3.1.1</maven.plugin.release.version>
   </properties>
 
   <parent>
     <groupId>com.atlassian.jira</groupId>
     <artifactId>jira-bom</artifactId>
-    <!-- TODO: Fix this LOL -->
+  <!-- TODO: Fix this LOL -->
     <version>9.12.6</version>
   </parent>
 
@@ -94,13 +92,13 @@
 
       <!-- BOM's -->
 
-      <!-- <dependency> -->
-      <!--   <groupId>com.atlassian.jira</groupId> -->
-      <!--   <artifactId>jira-bom</artifactId> -->
-      <!--   <version>${jira.version}</version> -->
-      <!--   <type>pom</type> -->
-      <!--   <scope>import</scope> -->
-      <!-- </dependency> -->
+      <dependency>
+        <groupId>com.atlassian.jira</groupId>
+        <artifactId>jira-bom</artifactId>
+        <version>${jira.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
 
       <dependency>
         <groupId>com.atlassian.jira</groupId>
@@ -259,7 +257,30 @@
     </dependencies>
   </dependencyManagement>
 
+  <dependencies>
+    <dependency>
+      <groupId>org.jetbrains.kotlin</groupId>
+      <artifactId>kotlin-stdlib-jdk8</artifactId>
+      <version>${kotlin.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jetbrains.kotlin</groupId>
+      <artifactId>kotlin-test</artifactId>
+      <version>${kotlin.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <!-- <dependencies> -->
+  <!--   <dependency> -->
+  <!--     <groupId>com.atlassian.jira</groupId> -->
+  <!--     <artifactId>jira-bom</artifactId> -->
+  <!--     <version>9.12.6</version> -->
+  <!--   </dependency> -->
+  <!-- </dependencies> -->
+
   <build>
+    <sourceDirectory>scripts</sourceDirectory>
     <pluginManagement>
       <plugins>
         <plugin>
@@ -318,20 +339,20 @@
             <apiVersion>${kotlin.api.version}</apiVersion>
             <jvmTarget>${kotlin.compiler.jvmTarget}</jvmTarget>
           </configuration>
-          <executions>
-            <execution>
-              <id>compile</id>
-              <goals>
-                <goal>compile</goal>
-              </goals>
-            </execution>
-            <execution>
-              <id>test-compile</id>
-              <goals>
-                <goal>test-compile</goal>
-              </goals>
-            </execution>
-          </executions>
+          <!-- <executions> -->
+          <!--   <execution> -->
+          <!--     <id>compile</id> -->
+          <!--     <goals> -->
+          <!--       <goal>compile</goal> -->
+          <!--     </goals> -->
+          <!--   </execution> -->
+          <!--   <execution> -->
+          <!--     <id>test-compile</id> -->
+          <!--     <goals> -->
+          <!--       <goal>test-compile</goal> -->
+          <!--     </goals> -->
+          <!--   </execution> -->
+          <!-- </executions> -->
         </plugin>
 
         <plugin>
@@ -420,7 +441,7 @@
           <artifactId>maven-gpg-plugin</artifactId>
           <configuration>
             <keyname>${env.SIGNING_KEY}</keyname>
-            <passphrase>${env.SIGNING_PASSWORD}</passphrase>
+            <!-- NOTE: export MAVEN_GPG_PASSPHRASE to set passphrase -->
             <gpgArguments>
               <arg>--pinentry-mode</arg>
               <arg>loopback</arg>
@@ -458,6 +479,67 @@
       <plugin>
         <groupId>org.sonatype.central</groupId>
         <artifactId>central-publishing-maven-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-jira-bom</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>com.atlassian.jira</groupId>
+                  <artifactId>jira-bom</artifactId>
+                  <version>${jira.version}</version>
+                  <type>pom</type>
+                </artifactItem>
+              </artifactItems>
+              <outputDirectory>${project.build.directory}/deps</outputDirectory>
+              <overWriteReleases>true</overWriteReleases>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>kotlin-maven-plugin</artifactId>
+        <version>${kotlin.version}</version>
+        <configuration>
+          <jvmTarget>${maven.compiler.target}</jvmTarget>
+        </configuration>
+        <groupId>org.jetbrains.kotlin</groupId>
+        <executions>
+          <execution>
+            <id>extract-atlassian-maven-properties</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>script</goal>
+            </goals>
+            <configuration>
+              <scriptFile>scripts/extract-maven-properties.kts</scriptFile>
+              <scriptArguments>
+                <scriptArgument>${project.build.directory}/deps</scriptArgument>
+                <scriptArgument>jira-bom-${jira.version}</scriptArgument>
+              </scriptArguments>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
@@ -538,15 +620,17 @@
     <profile>
       <id>iapetus-release</id>
       <build>
-        <plugin>
+        <plugins>
+          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-source-plugin</artifactId>
-        </plugin>
+          </plugin>
 
-        <plugin>
+          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
-        </plugin>
+          </plugin>
+        </plugins>
       </build>
     </profile>
   </profiles>
@@ -624,8 +708,7 @@
     <repository>
       <id>mulesoft-public</id>
       <name>mulesoft public</name>
-      <url
-            >https://repository.mulesoft.org/nexus/content/repositories/public/</url>
+      <url>https://repository.mulesoft.org/nexus/content/repositories/public/</url>
     </repository>
 
     <repository>
