@@ -10,6 +10,6 @@ Include Iapetus as parent in your `pom.xml`.
 <parent>
     <groupId>com.linked-planet.maven</groupId>
     <artifactId>iapetus</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
 </parent>
 ```
