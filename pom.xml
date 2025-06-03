@@ -5,7 +5,7 @@
 
   <groupId>com.linked-planet.maven</groupId>
   <artifactId>iapetus</artifactId>
-  <version>1.0.4</version>
+  <version>1.0.5-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Iapetus</name>
@@ -665,7 +665,7 @@
 
   <scm>
     <developerConnection>${developer.connection}</developerConnection>
-    <tag>v1.0.4</tag>
+    <tag>v1.0.2</tag>
   </scm>
 
   <repositories>
