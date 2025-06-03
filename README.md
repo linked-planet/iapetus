@@ -31,7 +31,11 @@ Include the credentials for Maven-Central to your `~/.m2/settings.xml`.
 Then build and run the release.
 
 ```bash
-mvn clean install -Piapetus-release
-mvn release:prepare -Piapetus-release
-mvn release:perform -Piapetus-release
+mvn release:prepare release:perform
+```
+
+If anything goes wrong rollback.
+
+```bash
+mvn release:rollback
 ```
