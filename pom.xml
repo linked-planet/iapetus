@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
 
@@ -10,12 +12,42 @@
 
   <name>Iapetus</name>
   <description>Parent POM for Atlassian Projects</description>
+  <url>https://github.com/linked-planet/iapetus.git</url>
   <inceptionYear>2025</inceptionYear>
 
   <organization>
     <name>linked-planet GmbH</name>
     <url>https://linked-planet.com</url>
   </organization>
+
+  <licenses>
+    <license>
+      <name>The Apache License, Version 2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <id>sjahreis</id>
+      <name>Simon Jahreis</name>
+      <email>simon.jahreis@linked-planet.com</email>
+      <url>https://www.linked-planet.com/en/people-for-software/</url>
+    </developer>
+    <developer>
+      <id>p-louis</id>
+      <name>Patrick Louis</name>
+      <email>patrick.louis@linked-planet.com</email>
+      <url>https://www.linked-planet.com/en/people-for-software/</url>
+    </developer>
+    <developer>
+      <id>jdsee</id>
+      <name>Joscha Seelig</name>
+      <email>joscha.seelig@linked-planet.com</email>
+      <url>https://www.linked-planet.com/en/people-for-software/</url>
+    </developer>
+  </developers>
 
   <properties>
     <maven.compiler.source>11</maven.compiler.source>
@@ -25,8 +57,6 @@
     <kotlin.version>2.1.21</kotlin.version>
     <kotlin.api.version>2.1</kotlin.api.version>
     <kotlinx.version>1.10.2</kotlinx.version>
-    <developer.connection>scm:git:https://github.com/linked-planet/iapetus.git</developer.connection>
-    <project.scm.id>github</project.scm.id>
 
     <!-- Deployment properties intended to be set via command line -->
     <deploy.url>_</deploy.url>
@@ -664,8 +694,9 @@
   </profiles>
 
   <scm>
-    <developerConnection>${developer.connection}</developerConnection>
-    <tag>v1.0.2</tag>
+    <url>https://github.com/linked-planet/iapetus.git</url>
+    <connection>scm:git:https://github.com/linked-planet/iapetus.git</connection>
+    <developerConnection>scm:git:git@github.com:linked-planet/iapetus.git</developerConnection>
   </scm>
 
   <repositories>
