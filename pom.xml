@@ -49,6 +49,9 @@
     <servicedesk.version>5.12.22</servicedesk.version>
     <atlassian.spring.scanner.version>2.2.6</atlassian.spring.scanner.version>
 
+    <!-- WARN: This version must be updated whenever jira.version is updated -->
+    <amps.version>8.2.3</amps.version>
+
     <!-- APPLICATION -->
     <arrow.version>1.2.4</arrow.version> <!-- TODO: Upgrade to 2.1.2 -->
     <jackson.fasterxml.version>2.19.0</jackson.fasterxml.version>
@@ -448,16 +451,6 @@
           </executions>
         </plugin>
 
-        <!-- TODO: Drop this as soon as jira-bom is not anymore used as parent -->
-        <plugin>
-          <groupId>com.atlassian.maven.plugins</groupId>
-          <artifactId>artifactory-staging-maven-plugin</artifactId>
-          <inherited>false</inherited>
-          <configuration>
-            <skipPromotion>true</skipPromotion>
-          </configuration>
-        </plugin>
-
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>exec-maven-plugin</artifactId>
@@ -476,6 +469,24 @@
   <profiles>
     <profile>
       <id>parent-build</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+        <file>
+          <exists>.parent-build.activation</exists>
+        </file>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>license-maven-plugin</artifactId>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>copy-jira-properties</id>
       <activation>
         <activeByDefault>false</activeByDefault>
         <file>
@@ -549,11 +560,6 @@
                 </configuration>
               </execution>
             </executions>
-          </plugin>
-
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>license-maven-plugin</artifactId>
           </plugin>
         </plugins>
       </build>
