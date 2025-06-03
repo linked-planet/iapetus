@@ -28,13 +28,13 @@ Include the credentials for Maven-Central to your `~/.m2/settings.xml`.
 </server>
 ```
 
-Then build and run the release.
+Then build and deploy the release.
 
 ```bash
 mvn release:prepare release:perform
 ```
 
-If anything goes wrong rollback.
+If anything goes wrong, rollback.
 
 ```bash
 mvn release:rollback
